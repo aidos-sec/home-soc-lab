@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380" viewBox="0 0 1280 380" role="img" aria-label="Home SOC Lab architecture">
+  <rect width="1280" height="380" fill="#f5f7fa"/>
+  <text x="64" y="72" font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="700" fill="#172634">Home SOC Lab</text>
+  <text x="64" y="104" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#536776">Local network  /  Single-node Wazuh</text>
+  <g font-family="DejaVu Sans, sans-serif" text-anchor="middle">
+    <rect x="64" y="152" width="248" height="132" rx="7" fill="#ffffff" stroke="#b8c9d4" stroke-width="2"/>
+    <rect x="64" y="152" width="248" height="7" fill="#277d8e"/>
+    <text x="188" y="201" font-size="20" font-weight="700" fill="#172634">Windows endpoint</text>
+    <text x="188" y="239" font-size="16" fill="#536776">Wazuh Agent</text>
+    <rect x="368" y="152" width="248" height="132" rx="7" fill="#ffffff" stroke="#b8c9d4" stroke-width="2"/>
+    <rect x="368" y="152" width="248" height="7" fill="#175b72"/>
+    <text x="492" y="201" font-size="20" font-weight="700" fill="#172634">Wazuh Server</text>
+    <text x="492" y="239" font-size="16" fill="#536776">Receives events</text>
+    <rect x="672" y="152" width="248" height="132" rx="7" fill="#ffffff" stroke="#b8c9d4" stroke-width="2"/>
+    <rect x="672" y="152" width="248" height="7" fill="#43759a"/>
+    <text x="796" y="201" font-size="20" font-weight="700" fill="#172634">Wazuh Indexer</text>
+    <text x="796" y="239" font-size="16" fill="#536776">Stores events</text>
+    <rect x="976" y="152" width="248" height="132" rx="7" fill="#ffffff" stroke="#b8c9d4" stroke-width="2"/>
+    <rect x="976" y="152" width="248" height="7" fill="#ab744c"/>
+    <text x="1100" y="201" font-size="20" font-weight="700" fill="#172634">Wazuh Dashboard</text>
+    <text x="1100" y="239" font-size="16" fill="#536776">Explore events</text>
+  </g>
+  <g stroke="#2e596c" stroke-width="3" fill="none">
+    <path d="M319 218h40"/><path d="m348 209 11 9-11 9"/>
+    <path d="M623 218h40"/><path d="m652 209 11 9-11 9"/>
+    <path d="M927 218h40"/><path d="m956 209 11 9-11 9"/>
+  </g>
+  <text x="640" y="338" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#536776">Agent traffic stays on the local LAN. Internal components run in the Linux Docker stack.</text>
+</svg>

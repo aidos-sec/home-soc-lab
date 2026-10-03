@@ -1,0 +1,9 @@
+# Keep the publication bundle limited to reviewed, redacted artifacts.
+*.pem
+*.key
+*.env
+*credentials*
+*-private.png
+.browser-local/
+screenshots/*-review.png
+screenshots/*-web.png

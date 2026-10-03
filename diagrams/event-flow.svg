@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="570" viewBox="0 0 1280 570" role="img" aria-label="Event collection and investigation flow">
+  <rect width="1280" height="570" fill="#f5f7fa"/>
+  <text x="64" y="64" font-family="DejaVu Sans, sans-serif" font-size="29" font-weight="700" fill="#172634">From Windows activity to an investigated event</text>
+  <text x="64" y="96" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#536776">A single-node deployment; no custom rules, cloud services or external exposure</text>
+  <g font-family="DejaVu Sans, sans-serif">
+    <rect x="64" y="150" width="248" height="112" rx="6" fill="#fff" stroke="#9fbac7" stroke-width="2"/>
+    <text x="88" y="188" font-size="20" font-weight="700" fill="#172634">Windows endpoint</text>
+    <text x="88" y="216" font-size="15" fill="#536776">Local activity and logs</text>
+    <text x="88" y="239" font-size="14" fill="#277d8e">Wazuh Agent</text>
+    <rect x="364" y="150" width="248" height="112" rx="6" fill="#fff" stroke="#9fbac7" stroke-width="2"/>
+    <text x="388" y="188" font-size="20" font-weight="700" fill="#172634">Wazuh Server</text>
+    <text x="388" y="216" font-size="15" fill="#536776">Decode and evaluate</text>
+    <text x="388" y="239" font-size="14" fill="#277d8e">Manager + Filebeat</text>
+    <rect x="664" y="150" width="248" height="112" rx="6" fill="#fff" stroke="#9fbac7" stroke-width="2"/>
+    <text x="688" y="188" font-size="20" font-weight="700" fill="#172634">Wazuh Indexer</text>
+    <text x="688" y="216" font-size="15" fill="#536776">Store searchable alerts</text>
+    <text x="688" y="239" font-size="14" fill="#277d8e">Internal Docker network</text>
+    <rect x="964" y="150" width="248" height="112" rx="6" fill="#fff" stroke="#9fbac7" stroke-width="2"/>
+    <text x="988" y="188" font-size="20" font-weight="700" fill="#172634">Dashboard</text>
+    <text x="988" y="216" font-size="15" fill="#536776">Search and investigate</text>
+    <text x="988" y="239" font-size="14" fill="#277d8e">Threat Hunting</text>
+    <rect x="64" y="340" width="1148" height="135" rx="6" fill="#e7f0f3" stroke="#b8c9d4"/>
+    <text x="90" y="378" font-size="18" font-weight="700" fill="#172634">Observed in this lab</text>
+    <text x="90" y="411" font-size="16" fill="#344e5f">1 active Windows agent   /   Recent events: process creation and successful Windows logon</text>
+    <text x="90" y="442" font-size="15" fill="#536776">Agent enrollment: TCP 1515    |    Event transport: TCP 1514    |    Dashboard: HTTPS 443 on the LAN</text>
+  </g>
+  <g stroke="#2e596c" stroke-width="3" fill="none">
+    <path d="M319 207h36"/><path d="m345 198 11 9-11 9"/>
+    <path d="M619 207h36"/><path d="m645 198 11 9-11 9"/>
+    <path d="M919 207h36"/><path d="m945 198 11 9-11 9"/>
+  </g>
+  <text x="640" y="523" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="14" fill="#536776">Server, Indexer and Dashboard run on the same Linux laptop in separate containers.</text>
+</svg>
