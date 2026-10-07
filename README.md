@@ -1,12 +1,28 @@
-# Home SOC Lab
+# 🛡️ Home SOC Lab
 
-A two-laptop, LAN-only security monitoring lab. A Windows endpoint sends events to a Wazuh single-node stack on a Linux laptop; the dashboard makes those events searchable. This is an evidence-backed MVP, not a production SOC or an attack-detection benchmark.
+A two-laptop, LAN-only security monitoring lab built to practice **SOC fundamentals, endpoint telemetry, SIEM investigation, and evidence-based documentation**.
+
+A Windows endpoint sends events to a Wazuh single-node stack running on Linux. The dashboard makes those events searchable for investigation.
+
+> This is an educational SOC lab and an evidence-backed MVP. It is not a production SOC and does not claim attack detection that has not been verified.
 
 **Stack:** Wazuh 4.14.8 | Docker Compose | Windows 11 agent | EndeavourOS host
 
 ![Home SOC Lab architecture](screenshots/01-lab-architecture.png)
 
-## Demo
+## 🎯 Portfolio Goals
+
+This lab is being developed to demonstrate practical junior SOC skills:
+
+- SIEM deployment and endpoint onboarding
+- Windows event collection
+- Security-event search and triage
+- Evidence collection and documentation
+- Incident-investigation workflow
+- MITRE ATT&CK mapping as new cases are added
+- Safe handling of screenshots, identifiers, and credentials
+
+## 🎬 Demo
 
 The animation below is a slideshow of three real, redacted Wazuh screenshots, **not** a recording of live interaction.
 
@@ -20,43 +36,105 @@ The animation below is a slideshow of three real, redacted Wazuh screenshots, **
 
 ![Recent Windows events in Threat Hunting](screenshots/04-windows-events.png)
 
-## Architecture
+## 🧱 Architecture
 
 ![Flow from endpoint activity to dashboard](diagrams/event-flow.png)
 
 | Component | Role |
 | --- | --- |
 | Windows Wazuh Agent | Collects endpoint telemetry and connects to the manager over the local network. |
-| Wazuh Server | Enrolls agents, receives their events, decodes and evaluates them. Filebeat forwards alerts. |
+| Wazuh Server | Enrolls agents, receives events, decodes them, and evaluates rules. Filebeat forwards alerts. |
 | Wazuh Indexer | Stores searchable Wazuh data. |
-| Wazuh Dashboard | Provides agent status and Threat Hunting views. |
+| Wazuh Dashboard | Provides agent status, event search, and Threat Hunting views. |
 
-The three central components run as separate containers on the same Linux laptop using the [official Wazuh Docker single-node deployment](https://documentation.wazuh.com/current/deployment-options/docker/wazuh-container.html). Agent enrollment uses TCP 1515, agent events use TCP 1514, and the dashboard uses HTTPS 443. The indexer (9200) and manager API (55000) are bound to localhost on the host; no router port forwarding or public Internet exposure was configured.
+The three central components run as separate containers on the same Linux laptop using the official Wazuh Docker single-node deployment. Agent enrollment uses TCP 1515, agent events use TCP 1514, and the dashboard uses HTTPS 443. The indexer (9200) and manager API (55000) are bound to localhost on the host; no router port forwarding or public Internet exposure was configured.
 
-## What Was Verified
+## ✅ What Was Verified
 
-- The Wazuh Server, Indexer and Dashboard containers were running; the indexer cluster was GREEN.
-- The Windows agent registered and displayed as **Active** in the Endpoints view.
-- The dashboard accepted login and displayed recent alerts from the Windows agent in Threat Hunting, including `Windows Logon Success` and `A process was created.`
-- The manager's Filebeat connected to the indexer. A direct authenticated request to the manager API succeeded.
+- Wazuh Server, Indexer, and Dashboard containers were running.
+- The indexer cluster reported GREEN status.
+- The Windows agent registered and displayed as **Active**.
+- The dashboard displayed recent events from the Windows endpoint.
+- Observed events included successful Windows logon and process-creation telemetry.
+- Filebeat connected to the indexer.
+- A direct authenticated request to the manager API succeeded.
 
 These checks were made locally on the Linux server. The Windows service startup mode (`Automatic`) and a direct browser connection **from Windows** are not evidenced by this repository. No screenshot of PowerShell has been fabricated.
 
-## Reproduce Safely
+## 🔎 Investigation Workflow
 
-1. Prepare two laptops on the same LAN: one Linux Docker host and one Windows endpoint. Review the [Wazuh Docker requirements](https://documentation.wazuh.com/current/deployment-options/docker/wazuh-container.html) first: the single-node stack needs at least 4 CPU cores, 8 GB RAM and 50 GB storage allocated for images and data.
-2. Use the official `wazuh/wazuh-docker` `v4.14.8` single-node instructions to generate certificates and start Server, Indexer and Dashboard. Change the published demo credentials using the [official password procedure](https://documentation.wazuh.com/current/deployment-options/docker/changing-default-password.html) before making the dashboard accessible on the LAN.
-3. On Windows, install the [official Wazuh Agent](https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-windows.html) with the Linux host's current LAN address as manager. Allow only the required local-network connections; do not expose these services to the public Internet.
-4. Confirm the agent is **Active** in Endpoints. Open Threat Hunting, select **Events**, set a recent time window and filter on that agent. Inspect actual records rather than assuming registration implies events are flowing.
+Future investigation cases in this repository will follow a consistent SOC-style structure:
 
-This is documentation and redacted evidence, **not** a copy of the live deployment. Do not use this README as a one-command installer. On the original Linux host, `docker compose ps` and `docker compose logs` provide health checks; `docker compose stop` preserves volumes when shutting down the lab.
+```text
+Alert / event
+    ↓
+Validate timestamp and affected host
+    ↓
+Identify user, process, IP, port, or other indicators
+    ↓
+Correlate related events
+    ↓
+Determine benign / suspicious / malicious context
+    ↓
+Map to MITRE ATT&CK when appropriate
+    ↓
+Document findings and recommended response
+```
 
-## Evidence and Privacy
+A reusable template is available in [investigations/INVESTIGATION_TEMPLATE.md](investigations/INVESTIGATION_TEMPLATE.md).
 
-Screenshots were captured from the running Wazuh UI. The endpoint hostname and private IP were replaced with `WINDOWS-ENDPOINT` and `192.168.0.x` **in the images only**; the real agent identity was not changed in Wazuh. Counters and event descriptions reflect the capture time and will vary. The architecture illustrations are diagrams, not screenshots.
+## 🧪 Planned Investigation Cases
 
-Do not publish credentials, session URLs, TLS private keys, agent keys, raw event exports with personal data, or the local Docker configuration containing passwords. The missing Windows service screenshot should be captured on Windows only after verifying `WazuhSvc` is `Running` with startup type `Automatic`, and reviewed for private data before adding it.
+These are **roadmap items**, not completed detections:
 
-## Scope
+- Multiple failed logons / brute-force-style activity
+- Suspicious PowerShell execution
+- Network scanning inside the isolated lab
+- Sysmon-enriched process investigation
+- MITRE ATT&CK mapping for verified behaviors
 
-The MVP demonstrates endpoint enrollment, event transport, storage and investigation. It does not include custom detection rules, Sysmon, Suricata, cloud infrastructure, notifications, a VPN or public exposure. Routine process/logon events should not be presented as confirmed threats.
+Completed cases will be added only after evidence is captured and reviewed.
+
+## 🚀 Reproduce Safely
+
+1. Prepare two laptops on the same LAN: one Linux Docker host and one Windows endpoint.
+2. Follow the official Wazuh Docker single-node deployment instructions for Wazuh 4.14.8.
+3. Change default/demo credentials before making the dashboard accessible on the LAN.
+4. Install the official Wazuh Agent on Windows and configure the Linux host as the manager.
+5. Allow only the required local-network connections; do not expose the lab to the public Internet.
+6. Confirm the endpoint is **Active**, then inspect real events in Threat Hunting.
+
+This repository documents the lab and redacted evidence; it is not a one-command installer.
+
+## 🔐 Evidence and Privacy
+
+Screenshots were captured from the running Wazuh UI. The endpoint hostname and private IP were replaced with `WINDOWS-ENDPOINT` and `192.168.0.x` **in the images only**.
+
+Do not publish:
+
+- credentials or session URLs
+- TLS private keys
+- Wazuh agent keys
+- raw event exports containing personal data
+- local Docker configuration containing passwords
+
+## 📌 Current Scope
+
+The current MVP demonstrates:
+
+- endpoint enrollment
+- event transport
+- searchable Windows telemetry
+- SIEM visibility
+- architecture documentation
+- evidence handling
+
+It does **not yet** include custom detection rules, Sysmon, Suricata, notifications, cloud infrastructure, a VPN, or public exposure.
+
+## 🔭 Roadmap
+
+- [ ] Add first documented SOC investigation
+- [ ] Add Sysmon telemetry
+- [ ] Map verified activity to MITRE ATT&CK
+- [ ] Add an incident-report example
+- [ ] Add additional detection and triage exercises
